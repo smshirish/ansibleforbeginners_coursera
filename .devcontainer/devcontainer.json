@@ -22,6 +22,8 @@
   "remoteUser": "root",
 "features": {},
   "forwardPorts": [],
-  "mounts": [],
+  "mounts": [
+    "source=C:\\data\\workspace\\devops_infra\\ansible\\ansibleforbeginners_coursera,target=/workspace/ansibleforbeginners_coursera,type=bind,consistency=cached"
+  ],
   "workspaceFolder": "/workspace"
 }
