@@ -79,4 +79,33 @@ Ethernet adapter vEthernet (WSL (Hyper-V firewall)):
 
 ### Issue :Connection timing out 
 
-After making above changes (find ip of wsl virtual network on podman host machine (windows)) and adding that to the ini file , still getting following error
+After making above changes (find ip of wsl virtual network on podman host machine (windows)) and adding that to the ini file , still cant connect .Now get timepout error 
+
+On podmad host side, the container is not visible even though the container starts corrected.
+
+#### root cause
+checked logs with podmain logs  containd_id  
+
+Logs show now error: Container started 
+
+COntainer is starting and exiting.
+
+Why is container exiting:
+The ssh process command makes sure that container will not stop as sshd is run in foregorund 
+
+CMD ["/usr/sbin/sshd","-D","-e"]
+
+So ssh process must be failing. 
+
+RU container in foreground (with -it flag instead of -d flag ) and see error happening
+
+-- podman command 
+C:\data\workspace\devops_infra\ansible\ansibleforbeginners_coursera\ansible_quickstart\docker_images>podman run  -v C:\data\workspace\devops_infra\share_mounts:/shared -p 2222:22  -it my-ansible-host1
+
+
+Unable to load host key: /etc/ssh/ssh_host_rsa_key
+Unable to load host key: /etc/ssh/ssh_host_ecdsa_key
+Unable to load host key: /etc/ssh/ssh_host_ed25519_key
+sshd: no hostkeys available -- exiting.
+
+
