@@ -3,6 +3,7 @@ FROM registry.access.redhat.com/ubi8/ubi-minimal
 RUN  microdnf install -y openssh-server python3 sudo && microdnf clean all
 RUN mkdir  /var/run/sshd && \
     useradd -m ansible && echo "ansible:ansible" | chpasswd && \
+    ssh-keygen -A && \  
     mkdir -p /home/ansible/.ssh && \
     chown -R ansible:ansible /home/ansible/.ssh
 
