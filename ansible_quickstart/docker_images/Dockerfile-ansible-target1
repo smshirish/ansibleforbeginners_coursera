@@ -1,7 +1,6 @@
-FROM docker.io/library/ubuntu:24.04
+FROM registry.access.redhat.com/ubi8/ubi-minimal
 
-RUN apt-get update && \
-    apt-get install -y openssh-server python3 sudo && \
+RUN RUN microdnf install -y openssh-server python3 sudo && microdnf clean all
     mkdir /var/run/sshd && \
     useradd -m ansible && echo "ansible:ansible" | chpasswd && \
     mkdir -p /home/ansible/.ssh && \
