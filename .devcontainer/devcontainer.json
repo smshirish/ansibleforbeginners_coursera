@@ -22,9 +22,6 @@
   "remoteUser": "root",
 "features": {
 	"ghcr.io/stuartleeks/dev-container-features/add-host:1": {},
-	"ghcr.io/cirolosapio/devcontainers-features/alpine-bash:0": {},
-	"ghcr.io/hspaans/devcontainer-features/ansible-lint:2": {},
-	"ghcr.io/devcontainers-extra/features/ansible:2": {},
 	"ghcr.io/devcontainer-config/features/dot-config:4": {}
 },
   "forwardPorts": [],

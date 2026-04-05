@@ -14,7 +14,9 @@ COPY install_ansible.sh /tmp/install_ansible.sh
 RUN /tmp/install_ansible.sh && \
     rm /tmp/install_ansible.sh
 
-COPY post_create.sh /usr/local/bin/post_create.sh
-RUN chmod +x /usr/local/bin/post_create.sh
+COPY post-create.sh /usr/local/bin/post-create.sh
+# Validate post create was copied and has execute permissions
+RUN ls -l /usr/local/bin/post-create.sh 
+RUN chmod +x /usr/local/bin/post-create.sh
 
 CMD ["/bin/bash"]

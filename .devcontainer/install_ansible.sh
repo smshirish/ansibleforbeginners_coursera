@@ -1,17 +1,9 @@
 #!/bin/sh
 set -e
 
-# Install pipx using the Python user environment
-python3 -m pip install --user pipx
-python3 -m pipx ensurepath
+apt-get update && apt-get install -y pipx
+pipx ensurepath --global
 
-# Ensure pipx is in the PATH
-export PATH="$PATH:$HOME/.local/bin"
-pipx ensurepath
-pipx ensurepath --global || true
-
-# Install Ansible with dependencies via pipx
-pipx install --include-deps ansible
-
-# Install ansible-lint
-pipx install ansible-lint
+# Install Ansible and Lint globally so they are in /usr/local/bin
+PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install --include-deps ansible
+PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install ansible-lint
