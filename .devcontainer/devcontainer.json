@@ -1,0 +1,33 @@
+{
+  "name": "Ansible",
+  "build":{
+    "dockerfile": "Dockerfile",
+    "context": ".",    
+    "args": {
+    }
+  },
+  "containerEnv": {
+    "PYTHON_PACKAGES": "flask",                                              // comma-separated
+    "ANSIBLE_COLLECTIONS": "flask,pytest"     
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "redhat.ansible",
+        "redhat.vscode-yaml"
+      ]
+    }
+  },
+  "postCreateCommand": "/usr/local/bin/post-create.sh | tee /tmp/post-create.log",
+  "remoteUser": "root",
+"features": {
+	"ghcr.io/stuartleeks/dev-container-features/add-host:1": {},
+	"ghcr.io/cirolosapio/devcontainers-features/alpine-bash:0": {},
+	"ghcr.io/hspaans/devcontainer-features/ansible-lint:2": {},
+	"ghcr.io/devcontainers-extra/features/ansible:2": {},
+	"ghcr.io/devcontainer-config/features/dot-config:4": {}
+},
+  "forwardPorts": [],
+  "mounts": [],
+  "workspaceFolder": "/workspace"
+}

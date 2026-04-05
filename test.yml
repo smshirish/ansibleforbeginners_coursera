@@ -1,0 +1,12 @@
+---
+- name: Test Playbook for Hello World
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Run Hello World Python Script
+      command: python hello_world.py
+      register: hello_output
+
+    - name: Display Hello World Output
+      debug:
+        msg: "Output from hello_world.py: {{ hello_output.stdout }}"

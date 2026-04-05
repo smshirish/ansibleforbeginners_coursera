@@ -1,0 +1,21 @@
+---
+- name: Verify my ADT Dev Container Setup
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Get Python version used by Ansible
+      debug:
+        msg: "Ansible is using Python version {{ ansible_python_version }}"
+
+    - name: Verify Ansible version
+      debug:
+        var: ansible_version.full
+
+    - name: Test AI/Python readiness (Check for pip)
+      command: pip --version
+      register: pip_check
+      changed_when: false
+
+    - name: Show pip status
+      debug:
+        msg: "Pip is installed and ready: {{ pip_check.stdout }}"
