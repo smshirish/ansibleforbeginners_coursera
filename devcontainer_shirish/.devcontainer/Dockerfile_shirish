@@ -40,26 +40,26 @@ ENV ANSIBLE_CONFIG=/etc/ansible/ansible.cfg
 
 ##Configure ansible end
 
-##Add ansible user and group to avoid running ansible as root user and to avoid permission issues when running ansible commands from 
+##Add ansibleuser user and group to avoid running ansible as root user and to avoid permission issues when running ansible commands from 
 ## VS Code terminal which is connected to this container as root user. This is a common practice to create a non-root user for development inside containers.
-RUN useradd -m ansible && echo "ansible:ansible" | chpasswd && usermod -aG sudo ansible
+RUN useradd -m ansibleuser && echo "ansibleuser:ansible" | chpasswd && usermod -aG sudo ansibleuser
     
 
 ## Set up the user Identity key pair for Ansible to connect to hosts without password prompts. This is a common practice to set up SSH keys for the ansible user to allow passwordless SSH access to target hosts.    
 # 1. Switch to the ansible user so files are created with correct ownership
-USER ansible
+USER ansibleuser
 
 # 2. Set up the SSH directory and generate the key pair
-RUN mkdir -p /home/ansible/.ssh && \
+RUN mkdir -p /home/ansibleuser/.ssh && \
     # -t ed25519: Use the modern, secure EdDSA algorithm
     # -N '': Set an empty passphrase for non-interactive automation
     # -f: Save the key to the standard default location
-    ssh-keygen -t ed25519 -N '' -f /home/ansible/.ssh/id_ed25519 && \
+    ssh-keygen -t ed25519 -N '' -f /home/ansibleuser/.ssh/id_ed25519 && \
     # 3. Apply strict 'Least Privilege' permissions (Industry Best Practice)
     # 700: Only the owner can read/write/enter the directory
-    chmod 700 /home/ansible/.ssh && \
+    chmod 700 /home/ansibleuser/.ssh && \
     # 600: Only the owner can read/write the private key
-    chmod 600 /home/ansible/.ssh/id_ed25519
+    chmod 600 /home/ansibleuser/.ssh/id_ed25519
 
 # 3. Change user back tp root to continue with other setup tasks
 USER root
