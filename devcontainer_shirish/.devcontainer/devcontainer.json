@@ -23,7 +23,8 @@
 "features": {},
   "forwardPorts": [],
   "mounts": [
-    "source=C:\\data\\workspace\\devops_infra\\ansible\\dev_workspace,target=/workspace/dev_workspace,type=bind,consistency=cached"
+    "source=C:\\data\\workspace\\devops_infra\\ansible\\dev_workspace,target=/workspace/dev_workspace,type=bind,consistency=cached",
+	  "source=C:\\data\\workspace\\devops_infra\\share_mounts\\dev_container_copied_data,target=/workspace/dev_container_copied_data,type=bind,consistency=cached"
   ],
   "workspaceFolder": "/workspace"
 }
