@@ -1,0 +1,29 @@
+{
+  "name": "Ansible",
+  "build":{
+    "dockerfile": "Dockerfile_shirish",
+    "context": ".",    
+    "args": {
+    }
+  },
+  "containerEnv": {
+    "PYTHON_PACKAGES": "flask",                                              // comma-separated
+    "ANSIBLE_COLLECTIONS": "flask,pytest"     
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "redhat.ansible",
+        "redhat.vscode-yaml"
+      ]
+    }
+  },
+  "postCreateCommand": "/usr/local/bin/post-create.sh | tee /tmp/post-create.log",
+  "remoteUser": "root",
+"features": {},
+  "forwardPorts": [],
+  "mounts": [
+    "source=C:\\data\\workspace\\devops_infra\\ansible\\dev_workspace,target=/workspace/dev_workspace,type=bind,consistency=cached"
+  ],
+  "workspaceFolder": "/workspace"
+}
