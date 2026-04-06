@@ -1,3 +1,4 @@
+##docker file to build the Dev Container (Host) to launch VS Code Remote Containers extension and connect to this container for Ansible development.
 FROM mcr.microsoft.com/devcontainers/python:1-3.12-bullseye
 #3.12-bullseye
 
