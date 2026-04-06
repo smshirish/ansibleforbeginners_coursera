@@ -16,7 +16,7 @@ RUN /tmp/install_ansible.sh && \
     rm /tmp/install_ansible.sh
 
 
-##Configure ansible 
+##Configure ansible start (create ansible config file to disable host key checking which is a common issue when connecting to new hosts with ansible)
 # Create a directory for your global ansible config if needed
 RUN mkdir -p /etc/ansible
 
@@ -31,6 +31,8 @@ ENV ANSIBLE_CONFIG=/etc/ansible/ansible.cfg
 
 # (Optional) You can even 'copy' a local config file into the image
 # COPY my_custom_ansible.cfg /etc/ansible/ansible.cfg
+
+##Configure ansible end
 
 COPY post-create.sh /usr/local/bin/post-create.sh
 # Validate post create was copied and has execute permissions
