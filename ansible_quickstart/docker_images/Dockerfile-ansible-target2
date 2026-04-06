@@ -1,0 +1,17 @@
+# use minimal RED hat image as base image
+FROM registry.access.redhat.com/ubi8/ubi-minimal
+# install python39 atleast due to dependency issues with ansible package 
+## using microdnf instead of dnf/apt-get  as these are not available in ubi-minimal image.
+RUN  microdnf install -y openssh-server python39 sudo && microdnf clean all  
+
+# create user/pwd as ansible and generate ssh keys (without ssh keys the container will not start . 
+RUN mkdir  /var/run/sshd && \
+    useradd -m ansible && echo "ansible:ansible" | chpasswd && \
+    ssh-keygen -A && \  
+    mkdir -p /home/ansible/.ssh && \
+    chown -R ansible:ansible /home/ansible/.ssh
+
+    ## expose port 22 for ssh and start sshd in foreground mode to keep the container running
+    ##Note the port 22 needs to be mapped to a different port on the host machine with -p 2222:22 when launching podman or docker container.
+EXPOSE 22
+CMD ["/usr/sbin/sshd","-D","-e"]
