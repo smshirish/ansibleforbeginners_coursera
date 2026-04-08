@@ -4,14 +4,32 @@ FROM registry.access.redhat.com/ubi8/ubi-minimal
 ## using microdnf instead of dnf/apt-get  as these are not available in ubi-minimal image.
 RUN  microdnf install -y openssh-server python39 sudo && microdnf clean all  
 
-# create user/pwd as ansible and generate ssh keys (without ssh keys the container will not start . 
+# create user/pwd as ansibleuser and generate ssh keys (without ssh keys the container will not start . 
 RUN mkdir  /var/run/sshd && \
-    useradd -m ansible && echo "ansible:ansible" | chpasswd && \
-    ssh-keygen -A && \  
-    mkdir -p /home/ansible/.ssh && \
-    chown -R ansible:ansible /home/ansible/.ssh
+    useradd -m ansibleuser && echo "ansibleuser:ansible" | chpasswd && \
+    ssh-keygen -A && \
+    mkdir -p /home/ansibleuser/.ssh && \
+    chown -R ansibleuser:ansibleuser /home/ansibleuser/.ssh
 
     ## expose port 22 for ssh and start sshd in foreground mode to keep the container running
     ##Note the port 22 needs to be mapped to a different port on the host machine with -p 2222:22 when launching podman or docker container.
 EXPOSE 22
+
+##Copy the Public keys from Ansible control host to ansible target host ansibleuser home 
+## Assumption the image is built from working dir   C:\data\workspace\devops_infra\ansible\ansibleforbeginners_coursera\ansible_quickstart\docker_images
+  
+COPY ../../../ssh_keys/ansible_public_key.pub /tmp/authorized_keys_temp
+
+RUN echo "[INFO] Validating SSH key..." && \
+    if [ ! -f /tmp/authorized_keys_temp ]; then \
+        echo "[ERROR] SSH key file not found in build context-Please make sure that the image is built from working dir   C:\data\workspace\devops_infra\ansible\ansibleforbeginners_coursera\ansible_quickstart\docker_images"; \
+        exit 1; \
+    fi && \
+    [ -s /tmp/authorized_keys_temp ] || { echo "[ERROR] SSH key is empty"; exit 1; } && \
+    cp /tmp/authorized_keys_temp /home/ansibleuser/.ssh/authorized_keys && \
+    chmod 600 /home/ansibleuser/.ssh/authorized_keys && \
+    chown ansibleuser:ansibleuser /home/ansibleuser/.ssh/authorized_keys && \
+    echo "[SUCCESS] SSH key installed" && \
+    rm -f /tmp/authorized_keys_temp
+
 CMD ["/usr/sbin/sshd","-D","-e"]
