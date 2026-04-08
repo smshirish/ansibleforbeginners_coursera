@@ -18,3 +18,13 @@ fi
 # Cleanup environment variables
 unset PYTHON_PACKAGES
 unset ANSIBLE_COLLECTIONS
+
+# Copy SSH public key to mounted workspace directory
+echo "Copying SSH public key to mounted workspace..."
+if [ -f /home/ansibleuser/.ssh/id_ed25519.pub ]; then
+    mkdir -p /workspace/dev_container_copied_data/ssh_keys
+    cp /home/ansibleuser/.ssh/id_ed25519.pub /workspace/dev_container_copied_data/ssh_keys/ansible_public_key.pub
+    echo "SSH public key copied to /workspace/dev_container_copied_data/ssh_keys/ansible_public_key.pub"
+else
+    echo "Warning: SSH public key not found at /home/ansibleuser/.ssh/id_ed25519.pub"
+fi
