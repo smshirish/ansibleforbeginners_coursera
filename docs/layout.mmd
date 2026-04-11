@@ -1,0 +1,19 @@
+---
+
+config:
+  theme: redux
+  layout: fixed
+---
+flowchart TB
+    n8["Podman on Windows With WSL"] L_n8_n9_0@--> n9["Untitled Node"] & D["<b>VS Code DevContainer ENV</b>"]
+    n4["All Containers running inside Podman on Windows 11"]
+    n6["Ansible server"]
+    n7["Ansible target host1"]
+
+    n8@{ icon: "azure:container-apps-environments", pos: "b", h: 192}
+    n9@{ shape: anchor}
+    n4@{ shape: text}
+    n6@{ icon: "azure:worker-container-app", pos: "b", h: 101}
+    n7@{ icon: "azure:worker-container-app", pos: "b", h: 101}
+
+    L_n8_n9_0@{ curve: natural }
