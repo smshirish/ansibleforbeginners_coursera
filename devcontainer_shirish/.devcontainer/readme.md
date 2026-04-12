@@ -8,8 +8,8 @@ The master folder for any changes is [dev_container_shirish](C:\data\workspace\d
 
 - Start podman
 - launch VS Code workspace and open folder /workspace/ansibleforbeginners_coursera
-- Start ansible host 
-- launch ansible target
+- The VS code DEV container is the ansible host. This is where Ansible commands will be run from
+- Now launch ansible target -> A container inside podman needs to be launched.
 
 
 ### Ansible target commands 

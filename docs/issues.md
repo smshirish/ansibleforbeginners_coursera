@@ -212,3 +212,24 @@ Run with -vvv to see the actual text being returned instead of JSON.
 Check for login banners or echo commands in the user's shell profile.
 Confirm the Python path inside the container by running podman exec [ID] which python3 to ensure it matches your inventory.
 Try the raw module again with a command like ansible target_container -m raw -a "python3 --version". If this returns the version correctly but ping fails, the issue is almost certainly "noise" in the shell or a missing dependency.
+
+### Issue template :Issue  title 
+
+[ERROR]: Task failed: Action failed: Module result deserialization failed: No start of json char found
+
+#### Analysis (gemini ) ??
+
+##### Likely causes ??
+
+###### 1: XXX Missing path??
+
+
+### Issue template :Issue  title 
+
+[ERROR]: Stack trace:???
+
+#### Analysis (gemini ) ??
+
+##### Likely causes ??
+
+###### 1: XXX Missing path??
