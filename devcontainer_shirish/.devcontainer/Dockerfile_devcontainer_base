@@ -35,3 +35,6 @@ RUN mkdir -p /home/ansibleuser/.ssh && \
     chmod 700 /home/ansibleuser/.ssh && \
     # 600: Only the owner can read/write the private key
     chmod 600 /home/ansibleuser/.ssh/id_ed25519
+
+## Change user back to root. This is important because the subsequent steps (like installing Ansible) require root privileges.    
+USER root

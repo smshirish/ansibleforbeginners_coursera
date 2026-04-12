@@ -1,5 +1,5 @@
 ##docker file to build the Dev Container (Host) to launch VS Code Remote Containers extension and connect to this container for Ansible development.
-FROM my-devcontainer-identity-base:1_0 
+FROM localhost/my-devcontainer-identity-base:1_0 
 
 
 LABEL org.opencontainers.image.source="https://github.com/jhoareaumarion/devcontainers"
@@ -7,6 +7,8 @@ LABEL org.opencontainers.image.description="Ansible DevContainer"
 LABEL org.opencontainers.image.licenses="MPL 2.0"
 
 WORKDIR /workspace
+
+USER root
 
 # Copy the installation script
 COPY install_ansible.sh /tmp/install_ansible.sh
