@@ -1,4 +1,6 @@
-##docker file to build the Dev Container (Host) to launch VS Code Remote Containers extension and connect to this container for Ansible development.
+##base docker file to build the Dev Container (Host) to launch VS Code Remote Containers extension 
+## This base image prebakes ssh keys in image for ansibleuser to allow passwordless SSH access to target hosts.
+## Dev container can use this base image and distribute the ssh keys to target containers using docker volumes or bind mounts. 
 FROM mcr.microsoft.com/devcontainers/python:1-3.12-bullseye
 #3.12-bullseye
 
@@ -8,40 +10,13 @@ LABEL org.opencontainers.image.licenses="MPL 2.0"
 
 WORKDIR /workspace
 
-# Copy the installation script
-COPY install_ansible.sh /tmp/install_ansible.sh
 
 # Add Yarn GPG key to fix signature verification issues
 RUN curl -fsSL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 
-# Run the script
-RUN /tmp/install_ansible.sh && \
-    rm /tmp/install_ansible.sh
 
-
-##Configure ansible start (create ansible config file to disable host key checking which is a common issue when connecting to new hosts with ansible)
-# Create a directory for your global ansible config if needed
-RUN mkdir -p /etc/ansible
-
-# Using '>>' to append just in case it exists
-RUN cat <<EOF >> /etc/ansible/ansible.cfg
-[defaults]
-host_key_checking = False
-EOF
-
-# Set the environment variable so Ansible always finds it
-ENV ANSIBLE_CONFIG=/etc/ansible/ansible.cfg
-
-# (Optional) You can even 'copy' a local config file into the image
-# COPY my_custom_ansible.cfg /etc/ansible/ansible.cfg
-
-# Install Podman for testing Dockerfiles within the container
-#RUN apt-get update && apt-get install -y podman && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-##Configure ansible end
-
-##Add ansibleuser user and group to avoid running ansible as root user and to avoid permission issues when running ansible commands from 
-## VS Code terminal which is connected to this container as root user. This is a common practice to create a non-root user for development inside containers.
+##Add ssh keys for a user (ansibleuser)  to allow passwordless SSH access to target hosts. 
+## This is a common practice to set up SSH keys for the ansible user to allow passwordless SSH access to target hosts.
 RUN useradd -m ansibleuser && echo "ansibleuser:ansibleuser" | chpasswd && usermod -aG sudo ansibleuser
     
 
@@ -60,13 +35,3 @@ RUN mkdir -p /home/ansibleuser/.ssh && \
     chmod 700 /home/ansibleuser/.ssh && \
     # 600: Only the owner can read/write the private key
     chmod 600 /home/ansibleuser/.ssh/id_ed25519
-
-# 3. Change user back tp root to continue with other setup tasks
-USER root
-
-COPY post-create.sh /usr/local/bin/post-create.sh
-# Validate post create was copied and has execute permissions
-RUN ls -l /usr/local/bin/post-create.sh 
-RUN chmod +x /usr/local/bin/post-create.sh
-
-CMD ["/bin/bash"]

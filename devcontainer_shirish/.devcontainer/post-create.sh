@@ -19,12 +19,16 @@ fi
 unset PYTHON_PACKAGES
 unset ANSIBLE_COLLECTIONS
 
-# Copy SSH public key to mounted workspace directory
-echo "Copying SSH public key to mounted workspace..."
+# Copy SSH public key (supposed to be copied form the Ansible host )to mounted workspace directory with ENV_VAR SSH_KEYS_DIR or default to /workspace/dev_container_copied_data/ssh_keys if not set
+SSH_KEYS_DIR="${SSH_KEYS_DIR:-/workspace/dev_container_copied_data/ssh_keys}"
+echo "Copying SSH public key to mounted workspace at $SSH_KEYS_DIR..."
 if [ -f /home/ansibleuser/.ssh/id_ed25519.pub ]; then
-    mkdir -p /workspace/dev_container_copied_data/ssh_keys
-    cp /home/ansibleuser/.ssh/id_ed25519.pub /workspace/dev_container_copied_data/ssh_keys/ansible_public_key.pub
-    echo "SSH public key copied to /workspace/dev_container_copied_data/ssh_keys/ansible_public_key.pub"
+    mkdir -p "$SSH_KEYS_DIR"
+    cp /home/ansibleuser/.ssh/id_ed25519.pub "$SSH_KEYS_DIR/ansible_public_key.pub"
+    echo "SSH public key copied to $SSH_KEYS_DIR/ansible_public_key.pub"
 else
     echo "Warning: SSH public key not found at /home/ansibleuser/.ssh/id_ed25519.pub"
 fi
+
+## Install curl 
+RUN apt-get update && apt-get install -y curl && apt-get clean && rm -rf /var/lib/apt/lists/*    

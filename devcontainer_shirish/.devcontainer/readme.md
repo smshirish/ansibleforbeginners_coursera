@@ -11,6 +11,10 @@ The master folder for any changes is [dev_container_shirish](C:\data\workspace\d
 - The VS code DEV container is the ansible host. This is where Ansible commands will be run from
 - Now launch ansible target -> A container inside podman needs to be launched.
 
+### Customisation of dev container image 
+The dev container base image should not be rebuilt as it has pre backed ssh key pair , that is distribuited to other docker files used for hosts
+**BuildingBAseImage**
+podman build -t my-devcontainer-identity-base -f Dockerfile_devcontainer_base .
 
 ### Ansible target commands 
 
