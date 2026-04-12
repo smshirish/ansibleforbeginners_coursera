@@ -1,7 +1,7 @@
 {
   "name": "Ansible",
   "build":{
-    "dockerfile": "Dockerfile_shirish",
+    "dockerfile": "Dockerfile_devcontainer",
     "context": ".",    
     "args": {
     }
