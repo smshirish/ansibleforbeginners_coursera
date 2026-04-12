@@ -13,7 +13,13 @@ The master folder for any changes is [dev_container_shirish](C:\data\workspace\d
 
 ### Customisation of dev container image 
 The dev container base image should not be rebuilt as it has pre backed ssh key pair , that is distribuited to other docker files used for hosts
-**BuildingBAseImage**
+**BuildingBaseImage** for dev containers:(  Needed very rarely)
+
+- Change to podman machine  (linux) on the poadman host
+wsl
+- Switch to the build dir 
+cd /mnt/c/data/workspace/devops_infra/ansible/ansibleforbeginners_coursera/devcontainer_shirish/.devcontainer/
+- build image 
 podman build -t my-devcontainer-identity-base -f Dockerfile_devcontainer_base .
 
 ### Ansible target commands 
